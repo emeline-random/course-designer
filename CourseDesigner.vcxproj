@@ -161,6 +161,7 @@
     <ClInclude Include="MenuItem.h" />
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="Parcours.h" />
+    <ClInclude Include="TextField.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

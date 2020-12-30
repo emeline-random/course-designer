@@ -53,6 +53,14 @@ MenuItem::Action Menu::getAction(int x, int y) {
 	return MenuItem::Action::NONE;
 }
 
+MenuItem& Menu::getSelectedMenu(int x, int y) {
+	for (MenuItem item : items) {
+		if (item.getGlobalBounds().contains(x, y)) {
+			return item;
+		}
+	}
+}
+
 sf::RectangleShape Menu::getMenu() {
 	return menu;
 }

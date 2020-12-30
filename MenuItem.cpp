@@ -3,7 +3,7 @@
 sf::Color color_item(227, 232, 231);
 const int gap = 5;
 
-MenuItem::MenuItem(int width, int height, Action a){
+MenuItem::MenuItem(int width, int height, Action a) {
 	setSize(sf::Vector2f(width, height));
 	action = a;
 	setFillColor(color_item);

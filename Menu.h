@@ -14,6 +14,7 @@ public:
 	void setPosition(int x, int y);
 	void draw(sf::RenderWindow &window);
 	sf::Vector2f getPosition();
+	MenuItem& getSelectedMenu(int x, int y);
 	MenuItem::Action getAction(int x, int y);
 	sf::RectangleShape getMenu();
 };

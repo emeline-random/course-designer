@@ -4,6 +4,7 @@
 #include <math.h>  
 #include "Parcours.h"
 #include "Menu.h"
+#include "TextField.h"
 // Make code easier to type with "using namespace"
 using namespace sf;
 
@@ -23,6 +24,8 @@ int main()
 	int selectedBarre = -1;
 	int selectedVertical = -1;
 	int selectedOxer = -1;
+	TextField title(50);
+	title.setPosition(500, 50);
 	/********MENU*******/
 	Menu menu(Color(155, 155, 155));
 	Font f;
@@ -30,9 +33,11 @@ int main()
 	Text t;
 	t.setString("Remove");
 	t.setFont(f);
+	t.setFillColor(Color::Black);
 	Text t2;
 	t2.setString("Add");
 	t2.setFont(f);
+	t2.setFillColor(Color::Black);
 	menu.addItem(MenuItem(t2, MenuItem::Action::ADD));
 	menu.addItem(MenuItem(t, MenuItem::Action::DELETE));
 	while (window.isOpen())
@@ -48,6 +53,15 @@ int main()
 			window.close();
 		}
 		if (Mouse::isButtonPressed(Mouse::Left)) {
+			if (title.contains(Vector2f(x, y))) {
+				if (title.hasFocus()) {
+					title.setPosition(x, y);
+				}
+				title.setFocus(true);
+			}
+			else {
+				title.setFocus(false);
+			}
 			if (menuShown && menu.getMenu().getGlobalBounds().contains(x, y)) {
 				switch (menu.getAction(x, y)) {
 				case MenuItem::Action::ADD:
@@ -69,20 +83,20 @@ int main()
 			else {
 				parcours.handleUserAction(x, y);
 			}
+			input = false;
 		}
 		if (Mouse::isButtonPressed(Mouse::Right) && input) {
 			if (menuShown) {
 				menuShown = false;
-				input = false;
 				parcours.actionOver();
 			}
 			else {
 				if (parcours.handleRightClickAction(x, y)) {
 					menu.setPosition(x, y);
 					menuShown = true;
-					input = false;
 				}
 			}
+			input = false;
 		}
 		Event event;
 		while (window.pollEvent(event)) {
@@ -108,6 +122,11 @@ int main()
 				input = true;
 				parcours.actionOver();
 			}
+			else if (event.type == sf::Event::TextEntered) {
+				if (title.hasFocus()) {
+					title.handleInput(event);
+				}
+			}
 		}
 
 		/*****************************************
@@ -127,8 +146,9 @@ int main()
 		if (menuShown) {
 			menu.draw(window);
 		}
+		window.draw(title);
 
 		window.display();
 	}
 	return 0;
-}
+} 
