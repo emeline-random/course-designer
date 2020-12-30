@@ -12,9 +12,11 @@ using namespace sf;
 int main()
 {
 	// Create a video mode object
+	ContextSettings settings;
+	settings.antialiasingLevel = 8;
 	VideoMode vm(1000, 750);
 	// Create and open a window
-	RenderWindow window(vm, "Course designer", Style::Default);
+	RenderWindow window(vm, "Course designer", Style::Default, settings);
 	window.setVerticalSyncEnabled(true);
 	View view = window.getView();
 	bool menuShown = false;
@@ -40,6 +42,7 @@ int main()
 	t2.setFillColor(Color::Black);
 	menu.addItem(MenuItem(t2, MenuItem::Action::ADD));
 	menu.addItem(MenuItem(t, MenuItem::Action::DELETE));
+	int lastx = 0, lasty = 0;
 	while (window.isOpen())
 	{
 		/*****************************************
@@ -58,11 +61,13 @@ int main()
 					title.setPosition(x, y);
 				}
 				title.setFocus(true);
+				lastx = lasty = 0;
 			}
-			else {
+			else if (title.hasFocus()) {
 				title.setFocus(false);
+				lastx = lasty = 0;
 			}
-			if (menuShown && menu.getMenu().getGlobalBounds().contains(x, y)) {
+			else if (menuShown && menu.getMenu().getGlobalBounds().contains(x, y)) {
 				switch (menu.getAction(x, y)) {
 				case MenuItem::Action::ADD:
 					parcours.add();
@@ -75,13 +80,25 @@ int main()
 					input = false;
 					break;
 				}
+				lastx = lasty = 0;
 			}
 			else if (menuShown) {
 				menuShown = false;
 				input = false;
+				lastx = lasty = 0;
 			}
 			else {
-				parcours.handleUserAction(x, y);
+				if (!parcours.handleUserAction(x, y)) {
+					if (lastx == 0 && lasty == 0) {
+						lastx = x;
+						lasty = y;
+					}
+					View v = window.getView();
+					v.setCenter(v.getCenter().x - x + lastx, v.getCenter().y - y + lasty);
+					window.setView(v);
+					lastx = x;
+					lasty = y;
+				}
 			}
 			input = false;
 		}
@@ -121,6 +138,8 @@ int main()
 			else if (event.type == sf::Event::MouseButtonReleased) {
 				input = true;
 				parcours.actionOver();
+				lastx = 0;
+				lasty = 0;
 			}
 			else if (event.type == sf::Event::TextEntered) {
 				if (title.hasFocus()) {
@@ -132,8 +151,9 @@ int main()
 		/*****************************************
 					Draw the scene
 		*****************************************/
-		window.clear(Color(183, 163, 163));
+		window.clear(Color::White);
 
+		window.draw(parcours.getCarriere());
 		for (Barre barre : parcours.getBarres()) {
 			window.draw(barre);
 		}

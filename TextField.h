@@ -71,7 +71,6 @@ private:
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		// You can draw other high-level objects
 		target.draw(m_rect, states);
 		target.draw(rendered_text, states);
 	}

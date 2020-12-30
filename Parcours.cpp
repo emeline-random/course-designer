@@ -27,6 +27,13 @@ Parcours::Parcours() : selectedBarre(-1), selectedOxer(-1), selectedVertical(-1)
 	for (int i = 0; i < 5; i++) {
 		verticaux.push_back(Vertical());
 	}
+	carriere.setPointCount(4);
+	carriere.setPosition(50, 100);
+	carriere.setPoint(0, Vector2f(0, 0));
+	carriere.setPoint(1, Vector2f(6000, 0));
+	carriere.setPoint(3, Vector2f(0, 2000));
+	carriere.setPoint(2, Vector2f(6000, 2000));
+	carriere.setFillColor(Color(230, 204, 179));
 }
 
 int Parcours::getNbVerticaux()
@@ -59,7 +66,7 @@ void Parcours::setNbBarres(int nb)
 	barres.resize(nb);
 }
 
-void Parcours::handleUserAction(int x, int y)
+bool Parcours::handleUserAction(int x, int y)
 {
 	if (!move && !rotate) {
 		selectedBarre = getBarre(barres, x, y);
@@ -112,6 +119,7 @@ void Parcours::handleUserAction(int x, int y)
 			}
 		}
 	}
+	return move || rotate;
 }
 
 bool Parcours::handleRightClickAction(int x, int y) {
@@ -202,6 +210,10 @@ void Parcours::del() {
 	else if (selectedVertical != -1) {
 		verticaux.erase(verticaux.begin() + selectedVertical);
 	}
+}
+
+ConvexShape Parcours::getCarriere() {
+	return carriere;
 }
 
 std::vector<Vertical> Parcours::getVerticaux()
