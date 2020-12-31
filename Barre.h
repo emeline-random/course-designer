@@ -8,6 +8,8 @@ class Barre : public Sprite
 public:
 	static void initBarre();
 	Barre();
+private:
+	bool leftToRight = false;
 };
 
 namespace Barres {

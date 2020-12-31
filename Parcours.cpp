@@ -13,9 +13,15 @@ int getOxer(std::vector<Oxer> &oxers, int x, int y);
 int getVertical(std::vector<Vertical> &verticaux, int x, int y);
 
 NullSprite s;
+bool init = false;
+Texture arrow_texture;
 
 Parcours::Parcours() : selectedBarre(-1), selectedOxer(-1), selectedVertical(-1)
 {
+	if (!init) {
+		arrow_texture.loadFromFile("graphics/arrow.png");
+		init = true;
+	}
 	for (int i = 0; i < 5; i++) {
 		Barre barre;
 		barre.setPosition(100, 100);
@@ -96,9 +102,11 @@ bool Parcours::handleUserAction(int x, int y)
 			}
 			else if (selectedVertical != -1) {
 				verticaux.at(selectedVertical).setPosition(x, y);
+				verticaux.at(selectedVertical).getArrow().setPosition(x, y);
 			}
 			else {
 				oxers.at(selectedOxer).setPosition(x, y);
+				oxers.at(selectedOxer).getArrow().setPosition(x, y);
 			}
 		}
 		else if (rotate) {
@@ -110,11 +118,13 @@ bool Parcours::handleUserAction(int x, int y)
 			else if (selectedVertical != -1) {
 				if (!verticaux.at(selectedVertical).getGlobalBounds().contains(x, y)) {
 					verticaux.at(selectedVertical).rotate(1.f);
+					verticaux.at(selectedVertical).getArrow().rotate(1.f);
 				}
 			}
 			else {
 				if (!oxers.at(selectedOxer).getGlobalBounds().contains(x, y)) {
 					oxers.at(selectedOxer).rotate(1.f);
+					oxers.at(selectedOxer).getArrow().rotate(1.f);
 				}
 			}
 		}
@@ -178,6 +188,21 @@ bool shouldMove(Sprite sprite, int x)
 	return x > sprite.getGlobalBounds().left + 0.1 * sprite.getLocalBounds().width;
 }
 
+void Parcours::draw(RenderWindow& window) {
+	window.draw(getCarriere());
+	for (Barre barre : getBarres()) {
+		window.draw(barre);
+	}
+	for (Vertical vertical : getVerticaux()) {
+		window.draw(vertical);
+		window.draw(vertical.getArrow());
+	}
+	for (Oxer oxer : getOxers()) {
+		window.draw(oxer);
+		window.draw(oxer.getArrow());
+	}
+}
+
 void Parcours::actionOver() {
 	if (rotate || move) {
 		move = false;
@@ -209,6 +234,29 @@ void Parcours::del() {
 	}
 	else if (selectedVertical != -1) {
 		verticaux.erase(verticaux.begin() + selectedVertical);
+	}
+}
+
+void Parcours::resetRotation() {
+	if (selectedBarre != -1) {
+		barres.at(selectedBarre).setRotation(0);
+	}
+	else if (selectedOxer != -1) {
+		oxers.at(selectedOxer).setRotation(0);
+		oxers.at(selectedOxer).getArrow().setRotation(0);
+	}
+	else if (selectedVertical != -1) {
+		verticaux.at(selectedVertical).setRotation(0);
+		verticaux.at(selectedVertical).getArrow().setRotation(0);
+	}
+}
+
+void Parcours::changeDirection() {
+	if (selectedOxer != -1) {
+		oxers.at(selectedOxer).changeDirection();
+	}
+	else if (selectedVertical != -1) {
+		verticaux.at(selectedVertical).changeDirection();
 	}
 }
 

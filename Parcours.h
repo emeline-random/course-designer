@@ -14,9 +14,12 @@ public:
 	void setNbBarres(int nb);
 	bool handleUserAction(int x, int y);
 	bool handleRightClickAction(int x, int y);
+	void draw(RenderWindow& window);
 	void actionOver();
 	void add();
 	void del();
+	void resetRotation();
+	void changeDirection();
 	ConvexShape getCarriere();
 	std::vector<Vertical> getVerticaux();
 	std::vector<Oxer> getOxers();

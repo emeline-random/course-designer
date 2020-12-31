@@ -8,6 +8,15 @@
 // Make code easier to type with "using namespace"
 using namespace sf;
 
+Text getText(String s);
+void titleIn(TextField& title, int x, int y);
+void titleOut(TextField& title);
+void handleMenuAction(MenuItem::Action action, Parcours& parcours, bool& input, bool& menuShown);
+void handleMainMenuAction(MenuItem::Action action, Parcours& parcours, bool& input, bool& menuShown);
+void hideMenus(bool& input, bool& menuShown, bool mainMenuShown);
+Font f;
+int lastx = 0, lasty = 0;
+
 
 int main()
 {
@@ -19,9 +28,9 @@ int main()
 	RenderWindow window(vm, "Course designer", Style::Default, settings);
 	window.setVerticalSyncEnabled(true);
 	View view = window.getView();
-	bool menuShown = false;
 	bool input = true;
 	/********SPRITES*******/
+	f.loadFromFile("fonts/Roboto-Black.ttf");
 	Parcours parcours = Parcours();
 	int selectedBarre = -1;
 	int selectedVertical = -1;
@@ -30,19 +39,15 @@ int main()
 	title.setPosition(500, 50);
 	/********MENU*******/
 	Menu menu(Color(155, 155, 155));
-	Font f;
-	f.loadFromFile("fonts/Roboto-Black.ttf");
-	Text t;
-	t.setString("Remove");
-	t.setFont(f);
-	t.setFillColor(Color::Black);
-	Text t2;
-	t2.setString("Add");
-	t2.setFont(f);
-	t2.setFillColor(Color::Black);
-	menu.addItem(MenuItem(t2, MenuItem::Action::ADD));
-	menu.addItem(MenuItem(t, MenuItem::Action::DELETE));
-	int lastx = 0, lasty = 0;
+	menu.addItem(MenuItem(getText("Add"), MenuItem::Action::ADD));
+	menu.addItem(MenuItem(getText("Remove"), MenuItem::Action::DELETE));
+	menu.addItem(MenuItem(getText("Reset rotation"), MenuItem::Action::ROTATE));
+	menu.addItem(MenuItem(getText("Change direction"), MenuItem::Action::CHANGE_DIRECTION));
+	bool menuShown = false;
+	Menu mainMenu(Color(155, 155, 155));
+	mainMenu.addItem(MenuItem(getText("Resize"), MenuItem::Action::RESIZE));
+	bool mainMenuShown = false;
+	
 	while (window.isOpen())
 	{
 		/*****************************************
@@ -57,35 +62,19 @@ int main()
 		}
 		if (Mouse::isButtonPressed(Mouse::Left)) {
 			if (title.contains(Vector2f(x, y))) {
-				if (title.hasFocus()) {
-					title.setPosition(x, y);
-				}
-				title.setFocus(true);
-				lastx = lasty = 0;
+				titleIn(title, x, y);
 			}
 			else if (title.hasFocus()) {
-				title.setFocus(false);
-				lastx = lasty = 0;
+				titleOut(title);
 			}
 			else if (menuShown && menu.getMenu().getGlobalBounds().contains(x, y)) {
-				switch (menu.getAction(x, y)) {
-				case MenuItem::Action::ADD:
-					parcours.add();
-					menuShown = false;
-					input = false;
-					break;
-				case MenuItem::Action::DELETE:
-					parcours.del();
-					menuShown = false;
-					input = false;
-					break;
-				}
-				lastx = lasty = 0;
+				handleMenuAction(menu.getAction(x, y), parcours, input, menuShown);
 			}
-			else if (menuShown) {
-				menuShown = false;
-				input = false;
-				lastx = lasty = 0;
+			else if (mainMenuShown && menu.getMenu().getGlobalBounds().contains(x, y)) {
+
+			}
+			else if (menuShown || mainMenuShown) {
+				hideMenus(input, menuShown, mainMenuShown);
 			}
 			else {
 				if (!parcours.handleUserAction(x, y)) {
@@ -103,14 +92,18 @@ int main()
 			input = false;
 		}
 		if (Mouse::isButtonPressed(Mouse::Right) && input) {
-			if (menuShown) {
-				menuShown = false;
+			if (menuShown || mainMenuShown) {
+				menuShown = mainMenuShown = false;
 				parcours.actionOver();
 			}
 			else {
 				if (parcours.handleRightClickAction(x, y)) {
 					menu.setPosition(x, y);
 					menuShown = true;
+				}
+				else {
+					mainMenu.setPosition(x, y);
+					mainMenuShown = true;
 				}
 			}
 			input = false;
@@ -153,18 +146,12 @@ int main()
 		*****************************************/
 		window.clear(Color::White);
 
-		window.draw(parcours.getCarriere());
-		for (Barre barre : parcours.getBarres()) {
-			window.draw(barre);
-		}
-		for (Vertical vertical : parcours.getVerticaux()) {
-			window.draw(vertical);
-		}
-		for (Oxer oxer : parcours.getOxers()) {
-			window.draw(oxer);
-		}
+		parcours.draw(window);
 		if (menuShown) {
 			menu.draw(window);
+		}
+		else if (mainMenuShown) {
+			mainMenu.draw(window);
 		}
 		window.draw(title);
 
@@ -172,3 +159,60 @@ int main()
 	}
 	return 0;
 } 
+
+Text getText(String s) {
+	Text t;
+	t.setString(s);
+	t.setFont(f);
+	t.setFillColor(Color::Black);
+	return t;
+}
+void titleIn(TextField& title, int x, int y) {
+	if (title.hasFocus()) {
+		title.setPosition(x, y);
+	}
+	else {
+		title.setFocus(true);
+	}
+	lastx = lasty = 0;
+}
+void titleOut(TextField& title) {
+	title.setFocus(false);
+	lastx = lasty = 0;
+}
+
+void handleMenuAction(MenuItem::Action action, Parcours& parcours, bool& input, bool& menuShown) {
+	switch (action) {
+	case MenuItem::Action::ADD:
+		parcours.add();
+		menuShown = input = false;
+		break;
+	case MenuItem::Action::DELETE:
+		parcours.del();
+		menuShown = input = false;
+		break;
+	case MenuItem::Action::ROTATE:
+		parcours.resetRotation();
+		menuShown = input = false;
+		break;
+	case MenuItem::Action::CHANGE_DIRECTION:
+		parcours.changeDirection();
+		menuShown = input = false;
+		break;
+	}
+	lastx = lasty = 0;
+}
+
+void handleMainMenuAction(MenuItem::Action action, Parcours& parcours, bool& input, bool& menuShown) {
+	switch (action) {
+	case MenuItem::Action::RESIZE: //TODO
+		menuShown = input = false;
+		break;
+	}
+	lastx = lasty = 0;
+}
+
+void hideMenus(bool& input, bool& menuShown, bool mainMenuShown) {
+	menuShown = mainMenuShown = input = false;
+	lastx = lasty = 0;
+}
