@@ -12,7 +12,7 @@ Text getText(String s);
 void titleIn(TextField& title, int x, int y);
 void titleOut(TextField& title);
 void handleMenuAction(MenuItem::Action action, Parcours& parcours, bool& input, bool& menuShown);
-void handleMainMenuAction(MenuItem::Action action, Parcours& parcours, bool& input, bool& menuShown);
+void handleMainMenuAction(MenuItem::Action action, Parcours& parcours, bool& input, bool& menuShown, int x, int y);
 void hideMenus(bool& input, bool& menuShown, bool mainMenuShown);
 Font f;
 int lastx = 0, lasty = 0;
@@ -46,8 +46,11 @@ int main()
 	bool menuShown = false;
 	Menu mainMenu(Color(155, 155, 155));
 	mainMenu.addItem(MenuItem(getText("Resize"), MenuItem::Action::RESIZE));
+	mainMenu.addItem(MenuItem(getText("Add text"), MenuItem::Action::ADD_TEXT));
 	bool mainMenuShown = false;
-	
+
+	view.zoom(3);
+	window.setView(view);
 	while (window.isOpen())
 	{
 		/*****************************************
@@ -70,8 +73,8 @@ int main()
 			else if (menuShown && menu.getMenu().getGlobalBounds().contains(x, y)) {
 				handleMenuAction(menu.getAction(x, y), parcours, input, menuShown);
 			}
-			else if (mainMenuShown && menu.getMenu().getGlobalBounds().contains(x, y)) {
-
+			else if (mainMenuShown && mainMenu.getMenu().getGlobalBounds().contains(x, y)) {
+				handleMainMenuAction(mainMenu.getAction(x, y), parcours, input, mainMenuShown, x, y);
 			}
 			else if (menuShown || mainMenuShown) {
 				hideMenus(input, menuShown, mainMenuShown);
@@ -138,6 +141,9 @@ int main()
 				if (title.hasFocus()) {
 					title.handleInput(event);
 				}
+				else {
+					parcours.handleInput(event);
+				}
 			}
 		}
 
@@ -203,11 +209,16 @@ void handleMenuAction(MenuItem::Action action, Parcours& parcours, bool& input, 
 	lastx = lasty = 0;
 }
 
-void handleMainMenuAction(MenuItem::Action action, Parcours& parcours, bool& input, bool& menuShown) {
+void handleMainMenuAction(MenuItem::Action action, Parcours& parcours, bool& input, bool& menuShown, int x, int y) {
 	switch (action) {
 	case MenuItem::Action::RESIZE: //TODO
 		menuShown = input = false;
 		break;
+	case MenuItem::Action::ADD_TEXT:
+		parcours.addField(x, y);
+		menuShown = input = false;
+		break;
+
 	}
 	lastx = lasty = 0;
 }

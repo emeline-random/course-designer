@@ -5,8 +5,8 @@ const int GAP = 5;
 
 class TextField : public sf::Transformable, public sf::Drawable {
 public:
-	TextField(unsigned int maxChars) :
-		m_size(maxChars),
+	TextField(unsigned int initialSize) :
+		m_size(initialSize),
 		m_rect(sf::Vector2f(14 * m_size, 20 + 3 * GAP)),
 		m_hasfocus(false)
 	{
@@ -22,6 +22,10 @@ public:
 
 	const std::string getText() const {
 		return m_text;
+	}
+
+	auto getGlobalBounds() {
+		return m_rect.getGlobalBounds();
 	}
 
 	void setPosition(float x, float y) {
@@ -56,6 +60,11 @@ public:
 			m_text = m_text.substr(0, m_text.size() - 1);
 		}
 		else if (m_text.size() < m_size) {
+			m_text += e.text.unicode;
+			m_rect.setSize(Vector2f(14 * m_size, 20 + 3 * GAP));
+		}
+		else {
+			m_rect.setSize(Vector2f(m_rect.getSize().x + 14, m_rect.getSize().y));
 			m_text += e.text.unicode;
 		}
 		rendered_text.setString(m_text);

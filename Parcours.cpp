@@ -8,13 +8,16 @@ inline bool instanceof(const T*) {
 	return std::is_base_of<Base, T>::value;
 }
 bool shouldMove(Sprite sprite, int x);
-int getBarre(std::vector<Barre> &barres, int x, int y);
+bool shouldMove(TextField field, int x);
+int getBarre(std::vector<Barre>& barres, int x, int y);
 int getOxer(std::vector<Oxer> &oxers, int x, int y);
 int getVertical(std::vector<Vertical> &verticaux, int x, int y);
+int getField(std::vector<TextField>& fields, int x, int y);
 
 NullSprite s;
 bool init = false;
 Texture arrow_texture;
+TextField f(5);
 
 Parcours::Parcours() : selectedBarre(-1), selectedOxer(-1), selectedVertical(-1)
 {
@@ -33,12 +36,13 @@ Parcours::Parcours() : selectedBarre(-1), selectedOxer(-1), selectedVertical(-1)
 	for (int i = 0; i < 5; i++) {
 		verticaux.push_back(Vertical());
 	}
+	fields.push_back(f);
 	carriere.setPointCount(4);
 	carriere.setPosition(50, 100);
 	carriere.setPoint(0, Vector2f(0, 0));
-	carriere.setPoint(1, Vector2f(6000, 0));
+	carriere.setPoint(1, Vector2f(4000, 0));
 	carriere.setPoint(3, Vector2f(0, 2000));
-	carriere.setPoint(2, Vector2f(6000, 2000));
+	carriere.setPoint(2, Vector2f(4000, 2000));
 	carriere.setFillColor(Color(230, 204, 179));
 }
 
@@ -75,22 +79,31 @@ void Parcours::setNbBarres(int nb)
 bool Parcours::handleUserAction(int x, int y)
 {
 	if (!move && !rotate) {
-		selectedBarre = getBarre(barres, x, y);
-		if (selectedBarre != -1) {
-			move = shouldMove(barres.at(selectedBarre), x);
+
+		selectedField = getField(fields, x, y);
+		if (selectedField != -1) {
+			move = shouldMove(fields.at(selectedField), x);
+			fields.at(selectedField).setFocus(true);
 			rotate = !move;
 		}
 		else {
-			selectedOxer = getOxer(oxers, x, y);
-			if (selectedOxer != -1) {
-				move = shouldMove(oxers.at(selectedOxer), x);
+			selectedBarre = getBarre(barres, x, y);
+			if (selectedBarre != -1) {
+				move = shouldMove(barres.at(selectedBarre), x);
 				rotate = !move;
 			}
 			else {
-				selectedVertical = getVertical(verticaux, x, y);
-				if (selectedVertical != -1) {
-					move = shouldMove(verticaux.at(selectedVertical), x);
+				selectedOxer = getOxer(oxers, x, y);
+				if (selectedOxer != -1) {
+					move = shouldMove(oxers.at(selectedOxer), x);
 					rotate = !move;
+				}
+				else {
+					selectedVertical = getVertical(verticaux, x, y);
+					if (selectedVertical != -1) {
+						move = shouldMove(verticaux.at(selectedVertical), x);
+						rotate = !move;
+					}
 				}
 			}
 		}
@@ -104,9 +117,12 @@ bool Parcours::handleUserAction(int x, int y)
 				verticaux.at(selectedVertical).setPosition(x, y);
 				verticaux.at(selectedVertical).getArrow().setPosition(x, y);
 			}
-			else {
+			else if (selectedOxer != -1) {
 				oxers.at(selectedOxer).setPosition(x, y);
 				oxers.at(selectedOxer).getArrow().setPosition(x, y);
+			}
+			else {
+				fields.at(selectedField).setPosition(x, y);
 			}
 		}
 		else if (rotate) {
@@ -121,12 +137,18 @@ bool Parcours::handleUserAction(int x, int y)
 					verticaux.at(selectedVertical).getArrow().rotate(1.f);
 				}
 			}
-			else {
+			else if (selectedOxer != -1) {
 				if (!oxers.at(selectedOxer).getGlobalBounds().contains(x, y)) {
 					oxers.at(selectedOxer).rotate(1.f);
 					oxers.at(selectedOxer).getArrow().rotate(1.f);
 				}
 			}
+			else {
+				if (!fields.at(selectedField).getGlobalBounds().contains(x, y)) {
+					fields.at(selectedField).rotate(1.f);
+				}
+			}
+
 		}
 	}
 	return move || rotate;
@@ -148,9 +170,21 @@ bool Parcours::handleRightClickAction(int x, int y) {
 			if (selectedVertical != -1) {
 				return true;
 			}
+			else {
+				selectedField = getField(fields, x, y);
+				if (selectedField != -1) {
+					return true;
+				}
+			}
 		}
 	}
 	return false;
+}
+
+void Parcours::handleInput(Event e) {
+	if (selectedField != -1) {
+		fields.at(selectedField).handleInput(e);
+	}
 }
 
 int getBarre(std::vector<Barre> &barres, int x, int y) {
@@ -183,9 +217,23 @@ int getOxer(std::vector<Oxer> &oxers, int x, int y) {
 	return -1;
 }
 
+int getField(std::vector<TextField>& fields, int x, int y) {
+	for (int i = 0; i < fields.size(); i++) {
+		TextField field = fields.at(i);
+		if (field.contains(Vector2f(x, y))) {
+			return i;
+		}
+	}
+	return -1;
+}
+
 bool shouldMove(Sprite sprite, int x)
 {
 	return x > sprite.getGlobalBounds().left + 0.1 * sprite.getLocalBounds().width;
+}
+
+bool shouldMove(TextField field, int x) {
+	return x > field.getGlobalBounds().left + 0.1 * field.getGlobalBounds().width;
 }
 
 void Parcours::draw(RenderWindow& window) {
@@ -201,6 +249,9 @@ void Parcours::draw(RenderWindow& window) {
 		window.draw(oxer);
 		window.draw(oxer.getArrow());
 	}
+	for (TextField field : fields) {
+		window.draw(field);
+	}
 }
 
 void Parcours::actionOver() {
@@ -213,6 +264,7 @@ void Parcours::actionOver() {
 	}
 }
 
+TextField field(5); 
 void Parcours::add() {
 	if (selectedBarre != -1) {
 		barres.push_back(Barre());
@@ -222,6 +274,9 @@ void Parcours::add() {
 	}
 	else if (selectedVertical != -1) {
 		verticaux.push_back(Vertical());
+	} 
+	else if (selectedField != -1) {
+		fields.push_back(field);
 	}
 }
 
@@ -234,6 +289,9 @@ void Parcours::del() {
 	}
 	else if (selectedVertical != -1) {
 		verticaux.erase(verticaux.begin() + selectedVertical);
+	}
+	else if (selectedField != -1) {
+		fields.erase(fields.begin() + selectedField);
 	}
 }
 
@@ -249,6 +307,14 @@ void Parcours::resetRotation() {
 		verticaux.at(selectedVertical).setRotation(0);
 		verticaux.at(selectedVertical).getArrow().setRotation(0);
 	}
+	else if (selectedField != -1) {
+		fields.at(selectedField).setRotation(0);
+	}
+}
+
+void Parcours::addField(int x, int y) {
+	field.setPosition(x, y);
+	fields.push_back(field);
 }
 
 void Parcours::changeDirection() {
