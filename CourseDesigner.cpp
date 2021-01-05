@@ -66,7 +66,7 @@ int main()
 			window.close();
 		}
 		if (Mouse::isButtonPressed(Mouse::Left)) {
-			if (title.contains(Vector2f(x, y))) {
+			if (title.contains(Vector2f(x, y)) || (title.hasFocus() && !input)) {
 				titleIn(title, x, y);
 			}
 			else if (title.hasFocus()) {

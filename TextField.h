@@ -14,6 +14,7 @@ public:
 		m_rect.setOutlineThickness(2);
 		m_rect.setOutlineColor(sf::Color(127, 127, 127));
 		m_rect.setPosition(this->getPosition());
+		m_rect.setFillColor(sf::Color::Transparent);
 		rendered_text.setFont(m_font);
 		rendered_text.setFillColor(sf::Color::Black);
 		setOrigin(m_rect.getLocalBounds().width / 2, m_rect.getLocalBounds().height / 2);
@@ -53,6 +54,7 @@ public:
 	}
 
 	void handleInput(sf::Event e) {
+		Vector2f v = m_rect.getPosition();
 		if (!m_hasfocus || e.type != sf::Event::TextEntered)
 			return;
 
@@ -63,7 +65,10 @@ public:
 			m_text += e.text.unicode;
 		}
 		m_rect.setSize(Vector2f(m_text.size() != 0 ? 15 * m_text.size() + 2 * GAP: 28, 20 + 3 * GAP));
+		setOrigin(m_rect.getLocalBounds().width / 2, m_rect.getLocalBounds().height / 2);
+		m_rect.setOrigin(m_rect.getLocalBounds().width / 2, m_rect.getLocalBounds().height / 2);
 		rendered_text.setString(m_text);
+		setPosition(v.x, v.y);
 	}
 
 private:
