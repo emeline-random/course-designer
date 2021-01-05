@@ -29,6 +29,7 @@ int main()
 	window.setVerticalSyncEnabled(true);
 	View view = window.getView();
 	bool input = true;
+	bool moveView = false;
 	/********SPRITES*******/
 	f.loadFromFile("fonts/Roboto-Black.ttf");
 	Parcours parcours = Parcours();
@@ -53,6 +54,7 @@ int main()
 	window.setView(view);
 	while (window.isOpen())
 	{
+		moveView = false;
 		/*****************************************
 				Handle the players input
 		*****************************************/
@@ -80,17 +82,7 @@ int main()
 				hideMenus(input, menuShown, mainMenuShown);
 			}
 			else {
-				if (!parcours.handleUserAction(x, y)) {
-					if (lastx == 0 && lasty == 0) {
-						lastx = x;
-						lasty = y;
-					}
-					View v = window.getView();
-					v.setCenter(v.getCenter().x - x + lastx, v.getCenter().y - y + lasty);
-					window.setView(v);
-					lastx = x;
-					lasty = y;
-				}
+				moveView = !parcours.handleUserAction(x, y);
 			}
 			input = false;
 		}
@@ -137,6 +129,17 @@ int main()
 				lastx = 0;
 				lasty = 0;
 			}
+			else if (event.type == sf::Event::MouseMoved && moveView) {
+				if (lastx == 0 && lasty == 0) {
+					lastx = x;
+					lasty = y;
+				}
+				View v = window.getView();
+				v.setCenter(v.getCenter().x - x + lastx, v.getCenter().y - y + lasty);
+				window.setView(v);
+				lastx = x;
+				lasty = y;
+			}
 			else if (event.type == sf::Event::TextEntered) {
 				if (title.hasFocus()) {
 					title.handleInput(event);
@@ -164,7 +167,7 @@ int main()
 		window.display();
 	}
 	return 0;
-} 
+}
 
 Text getText(String s) {
 	Text t;

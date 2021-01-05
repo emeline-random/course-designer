@@ -7,7 +7,7 @@ class TextField : public sf::Transformable, public sf::Drawable {
 public:
 	TextField(unsigned int initialSize) :
 		m_size(initialSize),
-		m_rect(sf::Vector2f(14 * m_size, 20 + 3 * GAP)),
+		m_rect(sf::Vector2f(15 * m_size, 20 + 3 * GAP)),
 		m_hasfocus(false)
 	{
 		m_font.loadFromFile("fonts/Roboto-Black.ttf");
@@ -59,14 +59,10 @@ public:
 		if (e.text.unicode == 8) {   // Delete key
 			m_text = m_text.substr(0, m_text.size() - 1);
 		}
-		else if (m_text.size() < m_size) {
-			m_text += e.text.unicode;
-			m_rect.setSize(Vector2f(14 * m_size, 20 + 3 * GAP));
-		}
 		else {
-			m_rect.setSize(Vector2f(m_rect.getSize().x + 14, m_rect.getSize().y));
 			m_text += e.text.unicode;
 		}
+		m_rect.setSize(Vector2f(m_text.size() != 0 ? 15 * m_text.size() + 2 * GAP: 28, 20 + 3 * GAP));
 		rendered_text.setString(m_text);
 	}
 

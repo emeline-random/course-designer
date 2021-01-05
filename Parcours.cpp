@@ -17,7 +17,7 @@ int getField(std::vector<TextField>& fields, int x, int y);
 NullSprite s;
 bool init = false;
 Texture arrow_texture;
-TextField f(5);
+TextField f(2);
 
 Parcours::Parcours() : selectedBarre(-1), selectedOxer(-1), selectedVertical(-1)
 {
@@ -264,7 +264,7 @@ void Parcours::actionOver() {
 	}
 }
 
-TextField field(5); 
+TextField field(2); 
 void Parcours::add() {
 	if (selectedBarre != -1) {
 		barres.push_back(Barre());
