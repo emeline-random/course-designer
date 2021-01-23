@@ -153,6 +153,7 @@
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="Parcours.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="TextField.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Barre.h" />

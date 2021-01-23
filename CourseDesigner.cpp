@@ -16,6 +16,8 @@ void handleMainMenuAction(MenuItem::Action action, Parcours& parcours, bool& inp
 void hideMenus(bool& input, bool& menuShown, bool mainMenuShown);
 Font f;
 int lastx = 0, lasty = 0;
+bool resize = false;
+TextField* resizing = new TextField(10);
 
 
 int main()
@@ -33,7 +35,7 @@ int main()
 	/********SPRITES*******/
 	f.loadFromFile("fonts/Roboto-Black.ttf");
 	Parcours parcours = Parcours();
-	int selectedBarre = -1;
+	int m_selectedBarre = -1;
 	int selectedVertical = -1;
 	int selectedOxer = -1;
 	TextField title(50);
@@ -216,6 +218,7 @@ void handleMainMenuAction(MenuItem::Action action, Parcours& parcours, bool& inp
 	switch (action) {
 	case MenuItem::Action::RESIZE: //TODO
 		menuShown = input = false;
+		resize = true;
 		break;
 	case MenuItem::Action::ADD_TEXT:
 		parcours.addField(x, y);

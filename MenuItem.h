@@ -13,7 +13,7 @@ public:
 	Action getAction();
 	sf::Text& getText();
 private:
-	sf::Text text;
-	Action action;
+	sf::Text m_text;
+	Action m_action;
 };
 

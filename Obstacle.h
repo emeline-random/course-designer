@@ -13,8 +13,8 @@ public:
 	void changeDirection();
 	Sprite& getArrow();
 private:
-	int nbBarres = 3;
-	Sprite arrow;
+	int m_nbBarres = 3;
+	Sprite m_arrow;
 };
 
 namespace Verticaux
@@ -34,8 +34,8 @@ public:
 	void changeDirection();
 	Sprite& getArrow();
 private:
-	int nbBarres = 4;
-	Sprite arrow;
+	int m_nbBarres = 4;
+	Sprite m_arrow;
 };
 
 namespace Oxers

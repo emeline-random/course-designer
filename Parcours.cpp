@@ -19,7 +19,7 @@ bool init = false;
 Texture arrow_texture;
 TextField f(2);
 
-Parcours::Parcours() : selectedBarre(-1), selectedOxer(-1), selectedVertical(-1)
+Parcours::Parcours() : m_selectedBarre(-1), m_selectedOxer(-1), m_selectedVertical(-1)
 {
 	if (!init) {
 		arrow_texture.loadFromFile("graphics/arrow.png");
@@ -27,152 +27,159 @@ Parcours::Parcours() : selectedBarre(-1), selectedOxer(-1), selectedVertical(-1)
 	}
 	for (int i = 0; i < 5; i++) {
 		Barre barre;
-		barre.setPosition(100, 100);
-		barres.push_back(barre);
+		barre.setPosition(220, 170);
+		m_barres.push_back(barre);
 	}
 	for (int i = 0; i < 5; i++) {
-		oxers.push_back(Oxer());
+		Oxer oxer;
+		oxer.setPosition(900, 195);
+		oxer.getArrow().setPosition(900, 195);
+		m_oxers.push_back(oxer);
 	}
 	for (int i = 0; i < 5; i++) {
-		verticaux.push_back(Vertical());
+		Vertical vertical;
+		vertical.setPosition(550, 170);
+		vertical.getArrow().setPosition(550, 170);
+		m_verticaux.push_back(vertical);
 	}
-	fields.push_back(f);
-	carriere.setPointCount(4);
-	carriere.setPosition(50, 100);
-	carriere.setPoint(0, Vector2f(0, 0));
-	carriere.setPoint(1, Vector2f(4000, 0));
-	carriere.setPoint(3, Vector2f(0, 2000));
-	carriere.setPoint(2, Vector2f(4000, 2000));
-	carriere.setFillColor(Color(230, 204, 179));
+	f.setPosition(1100, 170);
+	m_fields.push_back(f);
+	m_carriere.setPointCount(4);
+	m_carriere.setPosition(50, 100);
+	m_carriere.setPoint(0, Vector2f(0, 0));
+	m_carriere.setPoint(1, Vector2f(4000, 0));
+	m_carriere.setPoint(3, Vector2f(0, 2000));
+	m_carriere.setPoint(2, Vector2f(4000, 2000));
+	m_carriere.setFillColor(Color(230, 204, 179));
 }
 
 int Parcours::getNbVerticaux()
 {
-	return verticaux.size();
+	return m_verticaux.size();
 }
 
 int Parcours::getNbOxers()
 {
-	return oxers.size();
+	return m_oxers.size();
 }
 
 int Parcours::getNbBarres()
 {
-	return barres.size();
+	return m_barres.size();
 }
 
 void Parcours::setNbVerticaux(int nb)
 {
-	verticaux.resize(nb);
+	m_verticaux.resize(nb);
 }
 
 void Parcours::setNbOxers(int nb)
 {
-	oxers.resize(nb);
+	m_oxers.resize(nb);
 }
 
 void Parcours::setNbBarres(int nb)
 {
-	barres.resize(nb);
+	m_barres.resize(nb);
 }
 
 bool Parcours::handleUserAction(int x, int y)
 {
-	if (!move && !rotate) {
+	if (!m_move && !m_rotate) {
 
-		selectedField = getField(fields, x, y);
-		if (selectedField != -1) {
-			move = shouldMove(fields.at(selectedField), x);
-			fields.at(selectedField).setFocus(true);
-			rotate = !move;
+		m_selectedField = getField(m_fields, x, y);
+		if (m_selectedField != -1) {
+			m_move = shouldMove(m_fields.at(m_selectedField), x);
+			m_fields.at(m_selectedField).setFocus(true);
+			m_rotate = !m_move;
 		}
 		else {
-			selectedBarre = getBarre(barres, x, y);
-			if (selectedBarre != -1) {
-				move = shouldMove(barres.at(selectedBarre), x);
-				rotate = !move;
+			m_selectedBarre = getBarre(m_barres, x, y);
+			if (m_selectedBarre != -1) {
+				m_move = shouldMove(m_barres.at(m_selectedBarre), x);
+				m_rotate = !m_move;
 			}
 			else {
-				selectedOxer = getOxer(oxers, x, y);
-				if (selectedOxer != -1) {
-					move = shouldMove(oxers.at(selectedOxer), x);
-					rotate = !move;
+				m_selectedOxer = getOxer(m_oxers, x, y);
+				if (m_selectedOxer != -1) {
+					m_move = shouldMove(m_oxers.at(m_selectedOxer), x);
+					m_rotate = !m_move;
 				}
 				else {
-					selectedVertical = getVertical(verticaux, x, y);
-					if (selectedVertical != -1) {
-						move = shouldMove(verticaux.at(selectedVertical), x);
-						rotate = !move;
+					m_selectedVertical = getVertical(m_verticaux, x, y);
+					if (m_selectedVertical != -1) {
+						m_move = shouldMove(m_verticaux.at(m_selectedVertical), x);
+						m_rotate = !m_move;
 					}
 				}
 			}
 		}
 	}
-	if (move || rotate) {
-		if (move) {
-			if (selectedBarre != -1) {
-				barres.at(selectedBarre).setPosition(x, y);
+	if (m_move || m_rotate) {
+		if (m_move) {
+			if (m_selectedBarre != -1) {
+				m_barres.at(m_selectedBarre).setPosition(x, y);
 			}
-			else if (selectedVertical != -1) {
-				verticaux.at(selectedVertical).setPosition(x, y);
-				verticaux.at(selectedVertical).getArrow().setPosition(x, y);
+			else if (m_selectedVertical != -1) {
+				m_verticaux.at(m_selectedVertical).setPosition(x, y);
+				m_verticaux.at(m_selectedVertical).getArrow().setPosition(x, y);
 			}
-			else if (selectedOxer != -1) {
-				oxers.at(selectedOxer).setPosition(x, y);
-				oxers.at(selectedOxer).getArrow().setPosition(x, y);
+			else if (m_selectedOxer != -1) {
+				m_oxers.at(m_selectedOxer).setPosition(x, y);
+				m_oxers.at(m_selectedOxer).getArrow().setPosition(x, y);
 			}
 			else {
-				fields.at(selectedField).setPosition(x, y);
+				m_fields.at(m_selectedField).setPosition(x, y);
 			}
 		}
-		else if (rotate) {
-			if (selectedBarre != -1) {
-				if (!barres.at(selectedBarre).getGlobalBounds().contains(x, y)) {
-					barres.at(selectedBarre).rotate(1.f);
+		else if (m_rotate) {
+			if (m_selectedBarre != -1) {
+				if (!m_barres.at(m_selectedBarre).getGlobalBounds().contains(x, y)) {
+					m_barres.at(m_selectedBarre).rotate(1.f);
 				}
 			}
-			else if (selectedVertical != -1) {
-				if (!verticaux.at(selectedVertical).getGlobalBounds().contains(x, y)) {
-					verticaux.at(selectedVertical).rotate(1.f);
-					verticaux.at(selectedVertical).getArrow().rotate(1.f);
+			else if (m_selectedVertical != -1) {
+				if (!m_verticaux.at(m_selectedVertical).getGlobalBounds().contains(x, y)) {
+					m_verticaux.at(m_selectedVertical).rotate(1.f);
+					m_verticaux.at(m_selectedVertical).getArrow().rotate(1.f);
 				}
 			}
-			else if (selectedOxer != -1) {
-				if (!oxers.at(selectedOxer).getGlobalBounds().contains(x, y)) {
-					oxers.at(selectedOxer).rotate(1.f);
-					oxers.at(selectedOxer).getArrow().rotate(1.f);
+			else if (m_selectedOxer != -1) {
+				if (!m_oxers.at(m_selectedOxer).getGlobalBounds().contains(x, y)) {
+					m_oxers.at(m_selectedOxer).rotate(1.f);
+					m_oxers.at(m_selectedOxer).getArrow().rotate(1.f);
 				}
 			}
 			else {
-				if (!fields.at(selectedField).getGlobalBounds().contains(x, y)) {
-					fields.at(selectedField).rotate(1.f);
+				if (!m_fields.at(m_selectedField).getGlobalBounds().contains(x, y)) {
+					m_fields.at(m_selectedField).rotate(1.f);
 				}
 			}
 
 		}
 	}
-	return move || rotate;
+	return m_move || m_rotate;
 }
 
 bool Parcours::handleRightClickAction(int x, int y) {
-	move = rotate = false;
-	selectedBarre = getBarre(barres, x, y);
-	if (selectedBarre != -1) {
+	m_move = m_rotate = false;
+	m_selectedBarre = getBarre(m_barres, x, y);
+	if (m_selectedBarre != -1) {
 		return true;
 	}
 	else {
-		selectedOxer = getOxer(oxers, x, y);
-		if (selectedOxer != -1) {
+		m_selectedOxer = getOxer(m_oxers, x, y);
+		if (m_selectedOxer != -1) {
 			return true;
 		}
 		else {
-			selectedVertical = getVertical(verticaux, x, y);
-			if (selectedVertical != -1) {
+			m_selectedVertical = getVertical(m_verticaux, x, y);
+			if (m_selectedVertical != -1) {
 				return true;
 			}
 			else {
-				selectedField = getField(fields, x, y);
-				if (selectedField != -1) {
+				m_selectedField = getField(m_fields, x, y);
+				if (m_selectedField != -1) {
 					return true;
 				}
 			}
@@ -182,8 +189,8 @@ bool Parcours::handleRightClickAction(int x, int y) {
 }
 
 void Parcours::handleInput(Event e) {
-	if (selectedField != -1) {
-		fields.at(selectedField).handleInput(e);
+	if (m_selectedField != -1) {
+		m_fields.at(m_selectedField).handleInput(e);
 	}
 }
 
@@ -249,98 +256,98 @@ void Parcours::draw(RenderWindow& window) {
 		window.draw(oxer);
 		window.draw(oxer.getArrow());
 	}
-	for (TextField field : fields) {
+	for (TextField field : m_fields) {
 		window.draw(field);
 	}
 }
 
 void Parcours::actionOver() {
-	if (rotate || move) {
-		move = false;
-		rotate = false;
-		selectedBarre = -1;
-		selectedOxer = -1;
-		selectedVertical = -1;
+	if (m_rotate || m_move) {
+		m_move = false;
+		m_rotate = false;
+		m_selectedBarre = -1;
+		m_selectedOxer = -1;
+		m_selectedVertical = -1;
 	}
 }
 
 TextField field(2); 
 void Parcours::add() {
-	if (selectedBarre != -1) {
-		barres.push_back(Barre());
+	if (m_selectedBarre != -1) {
+		m_barres.push_back(Barre());
 	}
-	else if (selectedOxer != -1) {
-		oxers.push_back(Oxer());
+	else if (m_selectedOxer != -1) {
+		m_oxers.push_back(Oxer());
 	}
-	else if (selectedVertical != -1) {
-		verticaux.push_back(Vertical());
+	else if (m_selectedVertical != -1) {
+		m_verticaux.push_back(Vertical());
 	} 
-	else if (selectedField != -1) {
-		fields.push_back(field);
+	else if (m_selectedField != -1) {
+		m_fields.push_back(field);
 	}
 }
 
 void Parcours::del() {
-	if (selectedBarre != -1) {
-		barres.erase(barres.begin() + selectedBarre);
+	if (m_selectedBarre != -1) {
+		m_barres.erase(m_barres.begin() + m_selectedBarre);
 	}
-	else if (selectedOxer != -1) {
-		oxers.erase(oxers.begin() + selectedOxer);
+	else if (m_selectedOxer != -1) {
+		m_oxers.erase(m_oxers.begin() + m_selectedOxer);
 	}
-	else if (selectedVertical != -1) {
-		verticaux.erase(verticaux.begin() + selectedVertical);
+	else if (m_selectedVertical != -1) {
+		m_verticaux.erase(m_verticaux.begin() + m_selectedVertical);
 	}
-	else if (selectedField != -1) {
-		fields.erase(fields.begin() + selectedField);
+	else if (m_selectedField != -1) {
+		m_fields.erase(m_fields.begin() + m_selectedField);
 	}
 }
 
 void Parcours::resetRotation() {
-	if (selectedBarre != -1) {
-		barres.at(selectedBarre).setRotation(0);
+	if (m_selectedBarre != -1) {
+		m_barres.at(m_selectedBarre).setRotation(0);
 	}
-	else if (selectedOxer != -1) {
-		oxers.at(selectedOxer).setRotation(0);
-		oxers.at(selectedOxer).getArrow().setRotation(0);
+	else if (m_selectedOxer != -1) {
+		m_oxers.at(m_selectedOxer).setRotation(0);
+		m_oxers.at(m_selectedOxer).getArrow().setRotation(0);
 	}
-	else if (selectedVertical != -1) {
-		verticaux.at(selectedVertical).setRotation(0);
-		verticaux.at(selectedVertical).getArrow().setRotation(0);
+	else if (m_selectedVertical != -1) {
+		m_verticaux.at(m_selectedVertical).setRotation(0);
+		m_verticaux.at(m_selectedVertical).getArrow().setRotation(0);
 	}
-	else if (selectedField != -1) {
-		fields.at(selectedField).setRotation(0);
+	else if (m_selectedField != -1) {
+		m_fields.at(m_selectedField).setRotation(0);
 	}
 }
 
 void Parcours::addField(int x, int y) {
 	field.setPosition(x, y);
-	fields.push_back(field);
+	m_fields.push_back(field);
 }
 
 void Parcours::changeDirection() {
-	if (selectedOxer != -1) {
-		oxers.at(selectedOxer).changeDirection();
+	if (m_selectedOxer != -1) {
+		m_oxers.at(m_selectedOxer).changeDirection();
 	}
-	else if (selectedVertical != -1) {
-		verticaux.at(selectedVertical).changeDirection();
+	else if (m_selectedVertical != -1) {
+		m_verticaux.at(m_selectedVertical).changeDirection();
 	}
 }
 
 ConvexShape Parcours::getCarriere() {
-	return carriere;
+	return m_carriere;
 }
 
 std::vector<Vertical> Parcours::getVerticaux()
 {
-	return verticaux;
+	return m_verticaux;
 }
 
 std::vector<Oxer> Parcours::getOxers()
 {
-	return oxers;
+	return m_oxers;
 }
 
 std::vector<Barre> Parcours::getBarres()
 {
-	return barres;
+	return m_barres;
 }

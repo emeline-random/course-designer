@@ -28,15 +28,15 @@ public:
 	std::vector<Oxer> getOxers();
 	std::vector<Barre> getBarres();
 private:
-	std::vector<Vertical> verticaux;
-	std::vector<Oxer> oxers;
-	std::vector<Barre> barres;
-	std::vector<TextField> fields;
-	ConvexShape carriere;
-	bool move = false;
-	bool rotate = false;
-	int selectedBarre = -1;
-	int selectedVertical = -1;
-	int selectedOxer = -1;
-	int selectedField = -1;
+	std::vector<Vertical> m_verticaux;
+	std::vector<Oxer> m_oxers;
+	std::vector<Barre> m_barres;
+	std::vector<TextField> m_fields;
+	ConvexShape m_carriere;
+	bool m_move = false;
+	bool m_rotate = false;
+	int m_selectedBarre = -1;
+	int m_selectedVertical = -1;
+	int m_selectedOxer = -1;
+	int m_selectedField = -1;
 };

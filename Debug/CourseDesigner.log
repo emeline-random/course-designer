@@ -1,56 +1,157 @@
 ﻿  CourseDesigner.cpp
-C:\Users\mimin\CLionProjects\CourseDesigner\TextField.h(10,26): warning C4244: 'argument' : conversion de 'unsigned int' en 'T', perte possible de données
+C:\Users\mimin\CLionProjects\CourseDesigner\CourseDesigner.cpp(65,9): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
           with
           [
               T=float
           ]
-C:\Users\mimin\CLionProjects\CourseDesigner\TextField.h(67,41): warning C4244: 'argument' : conversion de 'unsigned int' en 'T', perte possible de données
+C:\Users\mimin\CLionProjects\CourseDesigner\CourseDesigner.cpp(66,9): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
           with
           [
               T=float
           ]
-C:\Users\mimin\CLionProjects\CourseDesigner\CourseDesigner.cpp(63,9): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
+C:\Users\mimin\CLionProjects\CourseDesigner\CourseDesigner.cpp(71,35): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
           with
           [
               T=float
           ]
-C:\Users\mimin\CLionProjects\CourseDesigner\CourseDesigner.cpp(64,9): warning C4244: 'initialisation' : conversion de 'T' en 'int', perte possible de données
+C:\Users\mimin\CLionProjects\CourseDesigner\CourseDesigner.cpp(71,32): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
           with
           [
               T=float
           ]
-C:\Users\mimin\CLionProjects\CourseDesigner\CourseDesigner.cpp(69,35): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+C:\Users\mimin\CLionProjects\CourseDesigner\CourseDesigner.cpp(77,71): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
           with
           [
               T=float
           ]
-C:\Users\mimin\CLionProjects\CourseDesigner\CourseDesigner.cpp(69,32): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+C:\Users\mimin\CLionProjects\CourseDesigner\CourseDesigner.cpp(77,68): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
           with
           [
               T=float
           ]
-C:\Users\mimin\CLionProjects\CourseDesigner\CourseDesigner.cpp(75,71): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+C:\Users\mimin\CLionProjects\CourseDesigner\CourseDesigner.cpp(80,79): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
           with
           [
               T=float
           ]
-C:\Users\mimin\CLionProjects\CourseDesigner\CourseDesigner.cpp(75,68): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+C:\Users\mimin\CLionProjects\CourseDesigner\CourseDesigner.cpp(80,76): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
           with
           [
               T=float
           ]
-C:\Users\mimin\CLionProjects\CourseDesigner\CourseDesigner.cpp(78,79): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+C:\Users\mimin\CLionProjects\CourseDesigner\CourseDesigner.cpp(118,21): warning C4305: 'argument' : troncation de 'double' à 'float'
+C:\Users\mimin\CLionProjects\CourseDesigner\CourseDesigner.cpp(123,21): warning C4305: 'argument' : troncation de 'double' à 'float'
+C:\Users\mimin\CLionProjects\CourseDesigner\CourseDesigner.cpp(183,24): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\mimin\CLionProjects\CourseDesigner\CourseDesigner.cpp(183,21): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+  Parcours.cpp
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(121,49): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(121,46): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(124,55): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(124,52): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(125,66): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(125,63): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(128,47): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(128,44): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(129,58): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(129,55): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(132,49): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(132,46): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(137,69): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
           with
           [
               T=float
           ]
-C:\Users\mimin\CLionProjects\CourseDesigner\CourseDesigner.cpp(78,76): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(137,66): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
           with
           [
               T=float
           ]
-C:\Users\mimin\CLionProjects\CourseDesigner\CourseDesigner.cpp(116,21): warning C4305: 'argument' : troncation de 'double' à 'float'
-C:\Users\mimin\CLionProjects\CourseDesigner\CourseDesigner.cpp(121,21): warning C4305: 'argument' : troncation de 'double' à 'float'
-C:\Users\mimin\CLionProjects\CourseDesigner\CourseDesigner.cpp(181,24): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-C:\Users\mimin\CLionProjects\CourseDesigner\CourseDesigner.cpp(181,21): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(142,75): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(142,72): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(148,67): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(148,64): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(154,69): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(154,66): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(198,20): warning C4018: '<' : incompatibilité signed/unsigned
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(200,43): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(200,40): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(208,20): warning C4018: '<' : incompatibilité signed/unsigned
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(210,46): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(210,43): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(218,20): warning C4018: '<' : incompatibilité signed/unsigned
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(220,42): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(220,39): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(228,20): warning C4018: '<' : incompatibilité signed/unsigned
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(230,34): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(230,31): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(323,23): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\mimin\CLionProjects\CourseDesigner\Parcours.cpp(323,20): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+  TextField.cpp
+C:\Users\mimin\CLionProjects\CourseDesigner\TextField.cpp(5,25): warning C4244: 'argument' : conversion de 'unsigned int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\mimin\CLionProjects\CourseDesigner\TextField.cpp(62,40): warning C4244: 'argument' : conversion de 'unsigned int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+  Génération de code en cours...
   CourseDesigner.vcxproj -> C:\Users\mimin\CLionProjects\CourseDesigner\Debug\CourseDesigner.exe

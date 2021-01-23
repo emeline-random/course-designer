@@ -15,26 +15,26 @@ Vertical::Vertical()
 	initVertical();
 	setTexture(Verticaux::texture);
 	setOrigin(getLocalBounds().width / 2, getLocalBounds().height / 2);
-	arrow.setTexture(Verticaux::arrow_texture);
-	arrow.setOrigin(arrow.getLocalBounds().width / 2, arrow.getLocalBounds().height / 2);
+	m_arrow.setTexture(Verticaux::arrow_texture);
+	m_arrow.setOrigin(m_arrow.getLocalBounds().width / 2, m_arrow.getLocalBounds().height / 2);
 }
 
 int Vertical::getNbBarres()
 {
-	return nbBarres;
+	return m_nbBarres;
 }
 
 void Vertical::setNbBarres(int barres)
 {
-	nbBarres = barres;
+	m_nbBarres = barres;
 }
 
 void Vertical::changeDirection() {
-	arrow.rotate(180);
+	m_arrow.rotate(180);
 }
 
 Sprite& Vertical::getArrow() {
-	return arrow;
+	return m_arrow;
 }
 
 void Oxer::initOxer()
@@ -48,7 +48,7 @@ void Oxer::initOxer()
 }
 
 Sprite& Oxer::getArrow() {
-	return arrow;
+	return m_arrow;
 }
 
 Oxer::Oxer()
@@ -56,20 +56,20 @@ Oxer::Oxer()
 	initOxer();
 	setTexture(Oxers::texture);
 	setOrigin(getLocalBounds().width / 2, getLocalBounds().height / 2);
-	arrow.setTexture(Oxers::arrow_texture);
-	arrow.setOrigin(arrow.getLocalBounds().width / 2, arrow.getLocalBounds().height / 2);
+	m_arrow.setTexture(Oxers::arrow_texture);
+	m_arrow.setOrigin(m_arrow.getLocalBounds().width / 2, m_arrow.getLocalBounds().height / 2);
 }
 
 int Oxer::getNbBarres()
 {
-	return nbBarres;
+	return m_nbBarres;
 }
 
 void Oxer::setNbBarres(int barres)
 {
-	nbBarres = barres;
+	m_nbBarres = barres;
 }
 
 void Oxer::changeDirection() {
-	arrow.rotate(180);
+	m_arrow.rotate(180);
 }
